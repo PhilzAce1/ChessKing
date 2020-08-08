@@ -14,8 +14,13 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, { token: action.token });
     }
     case constants.SET_USER: {
+      const newState = { ...state };
       const { data } = action;
-      return { ...state, ...data };
+      newState.token = data.token;
+      newState.user.username = data.user.username;
+      newState.user.id = data.user._id;
+      console.log(newState);
+      return newState;
     }
     case constants.LOGOUT: {
       return { ...state, ...initialState };

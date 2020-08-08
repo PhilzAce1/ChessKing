@@ -9,7 +9,6 @@ class AuthAPI {
     // const url = `${apiURL}/${path}`;
 
     const url = 'http://localhost:5000/api/auth/login';
-    fetch('http://localhost:5000').then((e) => console.log);
     return fetch(url, {
       headers: {
         'Content-Type': 'application/json',
@@ -18,12 +17,10 @@ class AuthAPI {
       body: JSON.stringify(user),
     })
       .then((response) => {
-        console.log(response);
         return response.json();
       })
       .then((results) => {
         cb(results);
-        console.log(results);
       })
       .catch((error) => {
         cb({ error });

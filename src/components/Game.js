@@ -12,19 +12,9 @@ import Helpers from '../assets/helpers';
 const { baseAPI } = data;
 const helpers = new Helpers();
 
-const {
-  findPieceBySquare,
-  getSquare,
-} = helpers;
+const { findPieceBySquare, getSquare } = helpers;
 
-const {
-  Bishop,
-  King,
-  Knight,
-  Pawn,
-  Queen,
-  Rook,
-} = pieceConstructors;
+const { Bishop, King, Knight, Pawn, Queen, Rook } = pieceConstructors;
 
 const generateSquares = (reverse) => {
   const boardRows = [
@@ -37,7 +27,7 @@ const generateSquares = (reverse) => {
     { label: 7, top: reverse ? 1 * 80 : 6 * 80 },
     { label: 8, top: reverse ? 0 * 80 : 7 * 80 },
   ];
-  
+
   const boardColumns = [
     { label: 1, left: reverse ? 7 * 80 : 0 * 80 },
     { label: 2, left: reverse ? 6 * 80 : 1 * 80 },
@@ -48,17 +38,19 @@ const generateSquares = (reverse) => {
     { label: 7, left: reverse ? 1 * 80 : 6 * 80 },
     { label: 8, left: reverse ? 0 * 80 : 7 * 80 },
   ];
-  
-  const rows = boardColumns.map(col => boardRows.map(row => ({
-    row: row.label,
-    column: col.label,
-    top: row.top,
-    left: col.left,
-    available: false,
-  })));
+
+  const rows = boardColumns.map((col) =>
+    boardRows.map((row) => ({
+      row: row.label,
+      column: col.label,
+      top: row.top,
+      left: col.left,
+      available: false,
+    }))
+  );
 
   const squares = [];
-  rows.forEach(row => squares.push(...row));
+  rows.forEach((row) => squares.push(...row));
   return squares;
 };
 
@@ -117,7 +109,7 @@ class Game extends Component {
     ],
     squares: generateSquares(),
     warning: null,
-  }
+  };
 
   componentDidMount() {
     const gameId = this.props.match.params.id;
@@ -145,31 +137,36 @@ class Game extends Component {
         console.log('RECEIVED AN ID', userId);
       });
 
-      this.socket.on('PUSH_MOVE', ({
-        row,
-        column,
-        followThrough,
-        oldPiece,
-        userId,
-      }) => {
-        // came from opponent
-        // preents recursion
-        if (userId !== this.props.user.id) {
-          const self = this.state.players.find(p => p.id === this.props.user.id);
-          const selectedPiece = this.state.pieces.find((p) => {
-            return p.row === oldPiece.row && p.column === oldPiece.column;
-          });
-          if (selectedPiece) {
-            selectedPiece.selected = true;
-          }
+      this.socket.on(
+        'PUSH_MOVE',
+        ({ row, column, followThrough, oldPiece, userId }) => {
+          // came from opponent
+          // preents recursion
+          if (userId !== this.props.user.id) {
+            const self = this.state.players.find(
+              (p) => p.id === this.props.user.id
+            );
+            const selectedPiece = this.state.pieces.find((p) => {
+              return p.row === oldPiece.row && p.column === oldPiece.column;
+            });
+            if (selectedPiece) {
+              selectedPiece.selected = true;
+            }
 
-          // opponent is moving
-          // selectedPiece will be undefined when it comes back from the server
-          if (selectedPiece && self.color !== selectedPiece.color) {
-            this.prepMove(row, column, followThrough, false, selectedPiece.color);
+            // opponent is moving
+            // selectedPiece will be undefined when it comes back from the server
+            if (selectedPiece && self.color !== selectedPiece.color) {
+              this.prepMove(
+                row,
+                column,
+                followThrough,
+                false,
+                selectedPiece.color
+              );
+            }
           }
         }
-      });
+      );
 
       this.socket.on('PUSH_SELECT_PIECE', ({ piece, userId }) => {
         if (this.props.user.id !== userId) {
@@ -183,13 +180,13 @@ class Game extends Component {
       // assign user ids to players
       this.socket.on('RECEIVE_IDS', ({ whiteId, blackId }) => {
         const { players } = this.state;
-        const blackPlayer = players.find(p => p.color === 'black');
-        const whitePlayer = players.find(p => p.color === 'white');
+        const blackPlayer = players.find((p) => p.color === 'black');
+        const whitePlayer = players.find((p) => p.color === 'white');
         blackPlayer.id = blackId;
-        whitePlayer.id = Number(whiteId);
+        whitePlayer.id = whiteId;
         this.setState({ players });
       });
-  
+
       if (this.props.user.id !== Number(whiteId)) {
         this.socket.emit('SET_IDS', { whiteId, blackId: this.props.user.id });
         // flipboard
@@ -197,32 +194,34 @@ class Game extends Component {
         this.setState({ squares });
       }
     });
-  }
+  };
 
   clearSquares = () => {
     const { squares } = this.state;
-    squares.filter(sq => sq.available).forEach((sq) => {
-      sq.available = false;
-    });
+    squares
+      .filter((sq) => sq.available)
+      .forEach((sq) => {
+        sq.available = false;
+      });
     this.setState({ squares });
-  }
+  };
 
   clearWarning = () => {
     this.setState({ warning: null });
-  }
+  };
 
   completeGame = () => {
     this.setState({ gameOver: true });
-  }
+  };
 
   kill = (index) => {
     const { pieces } = this.state;
-    const piece = pieces[index]
+    const piece = pieces[index];
     piece.alive = false;
     piece.row = null;
     piece.column = null;
     this.setState({ pieces });
-  }
+  };
 
   listenForCheck = (color, pieces, destinationIndex, squares) => {
     // get all living pieces of opposite color, omitting the one about to be killed
@@ -230,7 +229,7 @@ class Game extends Component {
       return p.alive && p.color !== color && index !== destinationIndex;
     });
     // get current user's king
-    const king = pieces.find(p => p.isKing && p.color === color);
+    const king = pieces.find((p) => p.isKing && p.color === color);
 
     // this factors in check if king moves to kill
     const kingTarget = pieces.find((p) => {
@@ -247,18 +246,26 @@ class Game extends Component {
     // all options for living pieces
     const allMoves = [];
     livingPieces.forEach((piece) => {
-      const moves = piece.generateCurrentOptions(piece, squares, piece.row, piece.column, pieces);
+      const moves = piece.generateCurrentOptions(
+        piece,
+        squares,
+        piece.row,
+        piece.column,
+        pieces
+      );
       allMoves.push(...moves);
     });
-    const kingPiece = allMoves.find(square => square.row === king.row && square.column === king.column);
+    const kingPiece = allMoves.find(
+      (square) => square.row === king.row && square.column === king.column
+    );
     return kingPiece !== undefined;
-  }
+  };
 
   listenForCheckmate = () => {
     let isCheckMate = true;
-    const pieces = this.state.pieces.map(p => ({ ...p }));
-    const activeColor = this.state.players.find(p => p.isTurn).color;
-    const inActiveColor = this.state.players.find(p => !p.isTurn).color;
+    const pieces = this.state.pieces.map((p) => ({ ...p }));
+    const activeColor = this.state.players.find((p) => p.isTurn).color;
+    const inActiveColor = this.state.players.find((p) => !p.isTurn).color;
 
     // get all living pieces of opposite color
     const livingPieces = pieces.filter((p) => {
@@ -266,51 +273,69 @@ class Game extends Component {
     });
 
     livingPieces.forEach((piece) => {
-      const moves = piece.generateCurrentOptions(piece, this.state.squares, piece.row, piece.column, this.state.pieces);
+      const moves = piece.generateCurrentOptions(
+        piece,
+        this.state.squares,
+        piece.row,
+        piece.column,
+        this.state.pieces
+      );
       moves.forEach((move) => {
-        const putsSelfInCheck = this.prepMove(move.row, move.column, false, piece, activeColor);
+        const putsSelfInCheck = this.prepMove(
+          move.row,
+          move.column,
+          false,
+          piece,
+          activeColor
+        );
         if (!putsSelfInCheck) {
           isCheckMate = false;
         }
       });
     });
     return isCheckMate;
-  }
+  };
 
   completeMove = (pieces, destinationIndex) => {
-    const inactivePlayer = this.state.players.find(p => !p.isTurn);
+    const inactivePlayer = this.state.players.find((p) => !p.isTurn);
     this.setState({ pieces }, () => {
       // if about to kill a piece
-      const squares = this.state.squares.map(sq => ({ ...sq }));
+      const squares = this.state.squares.map((sq) => ({ ...sq }));
       if (destinationIndex > -1) {
         this.kill(destinationIndex);
       }
-      const check = this.listenForCheck(inactivePlayer.color, pieces, null, squares);
+      const check = this.listenForCheck(
+        inactivePlayer.color,
+        pieces,
+        null,
+        squares
+      );
       this.switchTurn(check);
       this.clearWarning();
       this.clearSquares();
     });
-  }
+  };
 
   // followThrough if set to true, will actually attempt the move
   // is set to false, it is just checking the result of the move
   prepMove = (row, column, followThrough, preSelectedPiece, colorToCheck) => {
     // this is just here for debugging. remove when done
-
-    const activePlayer = this.state.players.find(p => p.isTurn);
+    const activePlayer = this.state.players.find((p) => p.isTurn);
     const squares = this.state.squares.map((sq) => {
       sq.piece = sq.piece ? { ...sq.piece } : null;
       return { ...sq };
     });
-    const pieces = this.state.pieces.map(p => ({ ...p }));
+    const pieces = this.state.pieces.map((p) => ({ ...p }));
     const square = getSquare(squares, row, column);
-    const newPieces = pieces.map(p => ({ ...p }));
+    const newPieces = pieces.map((p) => ({ ...p }));
 
     // get piece where you are going
     const destinationResident = findPieceBySquare(squares, pieces, square);
     const destinationIndex = pieces.indexOf(destinationResident);
 
-    const piece = preSelectedPiece ? preSelectedPiece : pieces.find(p => p.selected);
+    const piece = preSelectedPiece
+      ? preSelectedPiece
+      : pieces.find((p) => p.selected);
 
     // get old copy to send to server
     const oldPiece = { ...piece };
@@ -329,7 +354,13 @@ class Game extends Component {
       selected: false,
     };
 
-    const oldIndex = preSelectedPiece ? pieces.findIndex(p => p.row === preSelectedPiece.row && p.column === preSelectedPiece.column) : -1;
+    const oldIndex = preSelectedPiece
+      ? pieces.findIndex(
+          (p) =>
+            p.row === preSelectedPiece.row &&
+            p.column === preSelectedPiece.column
+        )
+      : -1;
     const index = pieces.indexOf(piece);
     if (preSelectedPiece) {
       newPieces[oldIndex] = newPiece;
@@ -342,8 +373,13 @@ class Game extends Component {
     if (isCastling) {
       const isLeft = column < piece.column;
       const rookColumn = isLeft ? 1 : 8;
-      const rook = findPieceBySquare(squares, pieces, { row: piece.row, column: rookColumn })
-      const rookIndex = pieces.findIndex(p => p.row === row && p.column === rookColumn);
+      const rook = findPieceBySquare(squares, pieces, {
+        row: piece.row,
+        column: rookColumn,
+      });
+      const rookIndex = pieces.findIndex(
+        (p) => p.row === row && p.column === rookColumn
+      );
 
       // move the rook for the castle
       rook.column = isLeft ? column + 1 : column - 1;
@@ -351,11 +387,16 @@ class Game extends Component {
       activePlayer.castled = true;
     }
 
-    const putSelfInCheck = this.listenForCheck(colorToCheck, newPieces, destinationIndex, squares);
+    const putSelfInCheck = this.listenForCheck(
+      colorToCheck,
+      newPieces,
+      destinationIndex,
+      squares
+    );
     if (!followThrough) {
       return putSelfInCheck;
     } else if (putSelfInCheck) {
-      this.warn('This will put yourself in check.', true)
+      this.warn('This will put yourself in check.', true);
     } else {
       if (this.state.gameId) {
         const userId = this.props.user.id;
@@ -370,7 +411,7 @@ class Game extends Component {
       this.completeMove(newPieces, destinationIndex);
     }
     this.clearSquares();
-  }
+  };
 
   revive = (piece, row, column) => {
     const { pieces } = this.state;
@@ -378,28 +419,30 @@ class Game extends Component {
     piece.row = row;
     piece.row = column;
     this.setState({ pieces });
-  }
+  };
 
   selectPiece = (piece, fromSocket) => {
     const userId = this.props.user.id;
-    const activeUser = this.state.players.find(p => p.isTurn);
+    const activeUser = this.state.players.find((p) => p.isTurn);
     if (userId === activeUser.id || !this.state.gameId) {
       // if (!fromSocket) {
       //   this.socket.emit('SELECT_PIECE', { piece, userId });
       // }
-      const {
-        gameOver,
-        pieces,
-        players,
-        squares,
-      } = this.state;
-      const activePlayer = players.find(p => p.isTurn);
+      const { gameOver, pieces, players, squares } = this.state;
+      const activePlayer = players.find((p) => p.isTurn);
       const activeColor = activePlayer.color;
-      const moves = piece.generateCurrentOptions(piece, squares, piece.row, piece.column, pieces, activePlayer);
+      const moves = piece.generateCurrentOptions(
+        piece,
+        squares,
+        piece.row,
+        piece.column,
+        pieces,
+        activePlayer
+      );
       piece.currentMoves = moves;
       if (piece.color === activeColor) {
         const pieces = this.state.pieces.slice();
-        const prevSelection = pieces.find(p => p.selected);
+        const prevSelection = pieces.find((p) => p.selected);
         if (prevSelection) {
           const index = pieces.indexOf(prevSelection);
           const deselected = {
@@ -418,14 +461,11 @@ class Game extends Component {
         }
       }
     }
-  }
+  };
 
   setCurrentChoices = () => {
-    const {
-      pieces,
-      squares,
-    } = this.state;
-    const selectedPiece = pieces.find(p => p.selected);
+    const { pieces, squares } = this.state;
+    const selectedPiece = pieces.find((p) => p.selected);
     const currentMoves = selectedPiece ? selectedPiece.currentMoves : null;
     squares.forEach((sq) => {
       sq.available = false;
@@ -437,7 +477,7 @@ class Game extends Component {
       });
     }
     this.setState({ squares });
-  }
+  };
 
   switchTurn = (check) => {
     const { players } = this.state;
@@ -452,21 +492,24 @@ class Game extends Component {
       }
     });
     // update players and see if check
-    this.setState({
-      check,
-      players,
-    }, () => {
-      if (check) {
-        const checkmate = this.listenForCheckmate();
-        if (checkmate) {
-          this.warn('CHECKMATE!', false);
-          this.completeGame();
-        } else {
-          this.warn('CHECK!', true)
+    this.setState(
+      {
+        check,
+        players,
+      },
+      () => {
+        if (check) {
+          const checkmate = this.listenForCheckmate();
+          if (checkmate) {
+            this.warn('CHECKMATE!', false);
+            this.completeGame();
+          } else {
+            this.warn('CHECK!', true);
+          }
         }
       }
-    });
-  }
+    );
+  };
 
   warn = (warning, clear) => {
     this.setState({ warning }, () => {
@@ -476,40 +519,30 @@ class Game extends Component {
         }, 2000);
       }
     });
-  }
+  };
 
   render() {
-    const {
-      gameId,
-      pieces,
-      players,
-      squares,
-    } = this.state;
+    const { gameId, pieces, players, squares } = this.state;
 
     const { user } = this.props;
 
-    const warning = this.state.warning ?
-      <h1>{this.state.warning}</h1>
-      : null;
+    const warning = this.state.warning ? <h1>{this.state.warning}</h1> : null;
 
-    const myTurn = gameId ? players.find(p => p.isTurn).id === user.id : null;
+    const myTurn = gameId ? players.find((p) => p.isTurn).id === user.id : null;
     const turnNotification = myTurn ? (
       <h2>Your move. Click piece and square to select and move.</h2>
-    )
-    :
-    null;
-    const instructions = gameId ?
+    ) : null;
+    const instructions = gameId ? (
       turnNotification
-      :
-      <h2>Click piece and square to select and move.</h2>;
+    ) : (
+      <h2>Click piece and square to select and move.</h2>
+    );
 
-    const activePlayerColor = players.find(p => p.isTurn).color;
+    const activePlayerColor = players.find((p) => p.isTurn).color;
 
     return (
       <div className="Game">
-        <div className="warning">
-          {warning}
-        </div>
+        <div className="warning">{warning}</div>
         <Board
           activePlayerColor={activePlayerColor}
           kill={this.kill}
@@ -519,15 +552,13 @@ class Game extends Component {
           squares={squares}
           squareWidth={80}
         />
-        <div style={{ height: 100 }}>
-          {instructions}
-        </div>
+        <div style={{ height: 100 }}>{instructions}</div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.userReducer.user,
 });
 
