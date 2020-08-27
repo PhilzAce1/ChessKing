@@ -266,7 +266,7 @@ class Game extends Component {
     const pieces = this.state.pieces.map((p) => ({ ...p }));
     const activeColor = this.state.players.find((p) => p.isTurn).color;
     const inActiveColor = this.state.players.find((p) => !p.isTurn).color;
-
+    console.log(inActiveColor);
     // get all living pieces of opposite color
     const livingPieces = pieces.filter((p) => {
       return p.alive && p.color === activeColor;

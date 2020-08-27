@@ -19,7 +19,6 @@ const reducer = (state = initialState, action) => {
       newState.token = data.token;
       newState.user.username = data.user.username;
       newState.user.id = data.user._id;
-      console.log(newState);
       return newState;
     }
     case constants.LOGOUT: {

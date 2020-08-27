@@ -1,14 +1,10 @@
-import data from '../data';
-
-const { api } = data;
-const apiURL = `${api}/auth`;
-
+// import data from '../data';
+// const { api } = data;
 class AuthAPI {
   login = (user, cb, signingUp) => {
     const path = signingUp ? 'signup' : 'login';
     // const url = `${apiURL}/${path}`;
-
-    const url = 'http://localhost:5000/api/auth/login';
+    const url = 'https://chesskingapi.herokuapp.com/api/auth/' + path;
     return fetch(url, {
       headers: {
         'Content-Type': 'application/json',

@@ -6,9 +6,7 @@ import AuthAPI from '../assets/api/auth';
 
 const authAPI = new AuthAPI();
 
-const {
-  login,
-} = authAPI;
+const { login } = authAPI;
 
 class Login extends Component {
   state = {
@@ -23,7 +21,7 @@ class Login extends Component {
     const o = {};
     o[key] = evt.target.value;
     this.setState(o);
-  }
+  };
 
   handleRes = (res) => {
     this.setState({ signingIn: false }, () => {
@@ -41,68 +39,60 @@ class Login extends Component {
         }
       }
     });
-  }
+  };
 
   setUser = (user) => {
     this.props.setUser(user);
-  }
+  };
 
   signIn = () => {
     this.setState({ error: null, signingIn: true }, () => {
       login(this.state, this.handleRes, this.state.signingUp);
     });
-  }
+  };
 
   toggleAuth = () => {
     this.setState({ signingUp: !this.state.signingUp });
-  }
+  };
 
   render() {
-    const {
-      password,
-      signingIn,
-      signingUp,
-      username,
-    } = this.state;
+    const { password, signingIn, signingUp, username } = this.state;
 
-    const {
-      token,
-    } = this.props;
+    const { token } = this.props;
 
-    const switchMessage = this.state.signingUp ?
-      (
-        <p>Have an account? <span onClick={this.toggleAuth}>Login</span></p>
-      )
-      :
-      (
-        <p>Need an account? <span onClick={this.toggleAuth}>Sign Up</span></p>
-      );
+    const switchMessage = this.state.signingUp ? (
+      <p>
+        Have an account? <span onClick={this.toggleAuth}>Login</span>
+      </p>
+    ) : (
+      <p>
+        Need an account? <span onClick={this.toggleAuth}>Sign Up</span>
+      </p>
+    );
 
-    const authRedirect = token ?
-      <Redirect to={{
-        pathname: "/",
-        state: { from: this.props.location }
-      }} />
-      :
-      null;
+    const authRedirect = token ? (
+      <Redirect
+        to={{
+          pathname: '/home',
+          state: { from: this.props.location },
+        }}
+      />
+    ) : null;
 
-    const signingInMessage = this.state.signingIn ?
-      (
-        <div>
-          <p>Please wait. Signing in to free Heroku server. This could take up to 15 seconds.</p>
-        </div>
-      )
-      :
-      null;
+    const signingInMessage = this.state.signingIn ? (
+      <div>
+        <p>
+          Please wait. Signing in to free Heroku server. This could take up to
+          15 seconds.
+        </p>
+      </div>
+    ) : null;
 
-    const errorMessage = this.state.error ?
-      (
-        <div className="error">
-          <p>{this.state.error}</p>
-        </div>
-      )
-      :
-      null;
+    const errorMessage = this.state.error ? (
+      <div className="error">
+        <p>{this.state.error}</p>
+      </div>
+    ) : null;
 
     return (
       <div className="Login">
@@ -114,7 +104,7 @@ class Login extends Component {
           <div>
             <input
               disabled={signingIn}
-              onChange={e => this.handleChange(e, 'username')}
+              onChange={(e) => this.handleChange(e, 'username')}
               value={username}
             />
           </div>
@@ -124,16 +114,13 @@ class Login extends Component {
           <div>
             <input
               disabled={signingIn}
-              onChange={e => this.handleChange(e, 'password')}
+              onChange={(e) => this.handleChange(e, 'password')}
               type="password"
               value={password}
             />
           </div>
           {errorMessage}
-          <button
-            disabled={signingIn}
-            onClick={this.signIn}
-          >
+          <button disabled={signingIn} onClick={this.signIn}>
             {signingUp ? 'Sign Up' : 'Login'}
           </button>
           {switchMessage}
@@ -144,11 +131,11 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   token: state.userReducer.token,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   setUser: (data) => {
     const action = {
       type: 'SET_USER',

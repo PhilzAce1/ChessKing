@@ -6,6 +6,8 @@ import store from '../store/';
 
 import BaseLayout from './BaseLayout';
 import Game from './Game';
+// import Home from './Home';
+import Landing from './Home/Home';
 import Home from './Home';
 import Login from './Login';
 import Logout from './Logout';
@@ -23,7 +25,8 @@ class App extends Component {
           <Router>
             <BaseLayout>
               <Switch>
-                <PrivateRoute component={Home} exact path="/" />
+                <Route component={Landing} exact path="/" />
+                <PrivateRoute component={Home} exact path="/home" />
                 <PrivateRoute component={Game} path="/game/:id" />
                 <Route component={Game} path="/game" />
                 <Route component={Login} path="/login" />

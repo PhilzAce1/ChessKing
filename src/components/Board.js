@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component, Fragment } from 'react';
 
 import Helpers from '../assets/helpers';
@@ -7,15 +8,12 @@ import Square from './Square';
 
 const helpers = new Helpers();
 
-const {
-  findPieceBySquare,
-  findSquareByPiece,
-} = helpers;
+const { findPieceBySquare, findSquareByPiece } = helpers;
 
 class Board extends Component {
-  state = {}
+  state = {};
 
-  render() {    
+  render() {
     const {
       activePlayerColor,
       kill,
@@ -37,11 +35,9 @@ class Board extends Component {
             width: boardWidth,
           }}
         >
-
           {pieces.map((piece, index) => {
             // find the square that the piece is on
             const foundSquare = findSquareByPiece(pieces, squares, piece);
-
             if (piece.alive && foundSquare) {
               return (
                 <Piece
@@ -61,13 +57,7 @@ class Board extends Component {
             }
           })}
           {squares.map((square, index) => {
-            const {
-              available,
-              column,
-              top,
-              left,
-              row,
-            } = square;
+            const { available, column, top, left, row } = square;
 
             // mark a square as occupied
             const foundPiece = findPieceBySquare(squares, pieces, square);
