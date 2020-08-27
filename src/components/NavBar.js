@@ -11,7 +11,7 @@ const NavBar = (props) => {
   return (
     <div className="NavBar">
       <div>
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/home">Home</NavLink>
       </div>
       <div>
         <NavLink to="/game">Single Player</NavLink>

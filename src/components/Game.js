@@ -155,7 +155,7 @@ class Game extends Component {
 
             // opponent is moving
             // selectedPiece will be undefined when it comes back from the server
-            if (selectedPiece && self.color !== selectedPiece.color) {
+            if (selectedPiece && self && self.color !== selectedPiece.color) {
               this.prepMove(
                 row,
                 column,
@@ -539,10 +539,10 @@ class Game extends Component {
     );
 
     const activePlayerColor = players.find((p) => p.isTurn).color;
-
     return (
       <div className="Game">
         <div className="warning">{warning}</div>
+        <div style={{ height: 100 }}>{instructions}</div>
         <Board
           activePlayerColor={activePlayerColor}
           kill={this.kill}
@@ -552,7 +552,6 @@ class Game extends Component {
           squares={squares}
           squareWidth={80}
         />
-        <div style={{ height: 100 }}>{instructions}</div>
       </div>
     );
   }

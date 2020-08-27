@@ -12,7 +12,7 @@ import whiteKing from './images/pieces/white_king.png';
 import whiteBishop from './images/pieces/white_bishop.png';
 import whiteKnight from './images/pieces/white_knight.png';
 
-const baseAPI = 'http://localhost:5000';
+const baseAPI = 'https://chesskingapi.herokuapp.com';
 
 const data = {
   api: `${baseAPI}/api`,
