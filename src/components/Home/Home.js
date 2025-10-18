@@ -1,28 +1,33 @@
-import React from 'react';
-import './home.css';
+import React from "react";
+import "./home.css";
+
 function Home() {
   return (
     <div className="home_landing_page">
       <section className="landing">
         <header>
           <div id="logo">
-            {/* <img src="./src/images/Logo.PNG" alt="hero" /> */}
+            {/* <img src="./src/images/chess_logo.png" alt="Chess King Logo" /> */}
           </div>
         </header>
         <div className="text">
           <article>
-            <h3>IT'S TIME FOR THE BATTLE OF KINGS</h3>
+            <h3>THE ULTIMATE CHESS ARENA</h3>
             <h1>Chess King</h1>
-            <h1>Top class Players </h1>
+            <h1>Face Grandmasters & Legends</h1>
             <p>
-              IDEAMASN is a digital product agency dedicated to building
-              cutting-edge website experiences and brand identities for
-              forward-thinking companies. We're creatives driven by the synergy
-              of design and technology
+              Welcome to Chess King—the home for passionate chess players of all
+              skill levels! Challenge friends, compete in exciting tournaments,
+              and improve your strategy through curated lessons and puzzles.
+              Whether you're a beginner learning the moves or a grandmaster
+              seeking stiff competition, your next chess adventure starts here.
             </p>
           </article>
           <aside>
-            <img src={require('../../assets/images/hero.jpg')} alt="hero" />
+            <img
+              src={require("../../assets/images/hero.jpg")}
+              alt="A dramatic chess board"
+            />
           </aside>
         </div>
         <div className="low">
@@ -31,111 +36,115 @@ function Home() {
       </section>
       <section className="what_we_do">
         <header>
-          <h2>
-            We encourage a positive change for people, companies and
-            organisations
-          </h2>
+          <h2>Elevate Your Chess Game</h2>
         </header>
         <div>
           <article className="wcards">
-            {/* <img src="./src/images/development_icon.PNG" alt="" /> */}
-            <h2>Developments</h2>
+            {/* <img src="./src/images/play_icon.png" alt="" /> */}
+            <h2>Play Online</h2>
             <p>
-              We can provide language-agnostic development SOLID development,
-              test-driven development, RESTFul API, scalable architecture,
-              third-party integrations. Our passion is creating solid yet
-              scalable solutions such as Cloud/Backend Architecturem API design
-              and DevOps
+              Play chess against friends, rivals, or computer opponents in
+              real-time or at your pace. Choose from casual games or join rated
+              tournaments to hone your skills.
             </p>
           </article>
           <article className="wcards">
-            {/* <img src="./src/images/product_dev_icon.PNG" alt="" /> */}
-            <h2>Product Design</h2>
+            {/* <img src="./src/images/lessons_icon.png" alt="" /> */}
+            <h2>Lessons & Puzzles</h2>
             <p>
-              We can provide language-agnostic development SOLID development,
-              test-driven development, RESTFul API, scalable architecture,
-              third-party integrations. Our passion is creating solid yet
-              scalable solutions such as Cloud/Backend Architecturem API design
-              and DevOps
+              Unlock interactive lessons from masters and a huge library of
+              tactical puzzles curated for every skill level. Learn openings,
+              master tactics, and crush your opponents!
             </p>
           </article>
           <article className="wcards">
-            {/* <img src="./src/images/business_icon.PNG" alt="" /> */}
-            <h2>Business Strategy</h2>
+            {/* <img src="./src/images/community_icon.png" alt="" /> */}
+            <h2>Community Events</h2>
             <p>
-              We can provide language-agnostic development SOLID development,
-              test-driven development, RESTFul API, scalable architecture,
-              third-party integrations. Our passion is creating solid yet
-              scalable solutions such as Cloud/Backend Architecturem API design
-              and DevOps
+              Participate in weekly tournaments, join exciting challenge
+              ladders, and connect with fellow chess enthusiasts through forums
+              and clubs.
             </p>
           </article>
           <article className="wcards">
-            {/* <img src="./src/images/branding_icon.PNG" alt="" /> */}
-            <h2>Branding</h2>
+            {/* <img src="./src/images/analysis_icon.png" alt="" /> */}
+            <h2>Game Analysis</h2>
             <p>
-              We can provide language-agnostic development SOLID development,
-              test-driven development, RESTFul API, scalable architecture,
-              third-party integrations. Our passion is creating solid yet
-              scalable solutions such as Cloud/Backend Architecturem API design
-              and DevOps
+              Analyze your games with powerful engines and detailed move-by-move
+              commentary. Detect blunders, and learn how to improve after every
+              match!
             </p>
           </article>
         </div>
       </section>
       <section className="let_us">
         <article>
-          <h3>Let's Talk</h3>
-          <h1>Let's build something awesome together</h1>
+          <h3>Ready to Make Your Move?</h3>
+          <h1>Join the Chess King Community</h1>
           <p>
-            Get in touch with out team to talk about your needs on your next
-            website design, branding experience, or other digital project you
-            have in mind. We can help turn the complex into simple usable and
-            memorable experiences.
+            Sign up today to start playing, learning, and competing. Connect
+            with players around the world, track your progress, and ascend the
+            leaderboards!
           </p>
-          <a>Talk to us</a>
+          <a href="#signup" className="cta-btn">
+            Get Started
+          </a>
         </article>
         <aside>
-          <img src={require('../../assets/images/sub.jpg')} alt="subhero" />
+          <img
+            src={require("../../assets/images/sub.jpg")}
+            alt="Chess match in progress"
+          />
         </aside>
       </section>
       <footer>
         <div className="top">
           <ul id="our_offices">
-            <li>2000 W.Morehead St.</li>
-            <li>Suite A</li>
-            <li>Charlotte, NC 28208</li>
-            <li>1, Adekunle Owobiyi Close</li>
-            <li>Ogba</li>
-            <li>Lagos, Nigeria</li>
+            <li>Chess King HQ</li>
+            <li>Knight's Row 15</li>
+            <li>London, UK 10234</li>
+            <li>Queens Plaza, 4th Floor</li>
+            <li>New York, NY 10001</li>
+            <li>contact@chessking.com</li>
           </ul>
           <ul>
-            <li>704-858-799 83</li>
-            <li>General Inquiries</li>
+            <li>+1-800-CHESS-KG</li>
+            <li>Support & Inquiries</li>
           </ul>
           <ul id="new_bussiness">
-            <li>Jason Sponsor</li>
+            <li>Chess Sponsorships</li>
             <li>
-              <a>Let's Talk</a>
+              <a href="mailto:sponsor@chessking.com">Become a Sponsor</a>
             </li>
           </ul>
-          {/* <img src="./src/images/img.PNG" alt="" /> */}
+          {/* <img src="./src/images/chess_footer.png" alt="" /> */}
         </div>
 
         <div className="bottom">
           <ul>
-            <li>{/* <a href="#">LinkedIn</a> */}</li>
-            <li>{/* <a href="#">Instagram</a> */}</li>
-            <li>{/* <a href="#">Facebook </a> */}</li>
-            <li>{/* <a href="#">Twitter </a> */}</li>
+            <li>
+              <a href="#">LinkedIn</a>
+            </li>
+            <li>
+              <a href="#">Instagram</a>
+            </li>
+            <li>
+              <a href="#">Facebook</a>
+            </li>
+            <li>
+              <a href="#">Twitter</a>
+            </li>
           </ul>
           <ul>
-            <li>2019, Ideamasn, LLC. All Rights Reserved</li>
-            <li>Privacy Policy</li>
+            <li>2024, Chess King. All Rights Reserved</li>
+            <li>
+              <a href="#">Privacy Policy</a>
+            </li>
           </ul>
         </div>
       </footer>
     </div>
   );
 }
+
 export default Home;
